@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: get network reference
+      infoblox:
+        server="{{ inventory_hostname }}"
+        username= "{{ infoblox_user }}" 
+        password= "{{ infoblox_password }}" 
+        action=get_network
+        network=10.10.1.0/24
+      register: infoblox
+
+    - name: get next available ips
+      infoblox:
+        server="{{ inventory_hostname }}"
+        username= "{{ infoblox_user }}" 
+        password= "{{ infoblox_password }}"
+        action=get_next_available_ip
+        network=10.10.1.0/24
+        start_addr=10.10.1.1 
+        end_addr=10.10.1.239 
+      register: infoblox
